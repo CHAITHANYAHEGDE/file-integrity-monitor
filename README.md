@@ -42,8 +42,11 @@ graph TD
 
 *Initial generation of the cryptographic file baseline.*
 
-## Technical Approach
-The FIM establishes a known-good SQLite baseline using SHA-256 hashing. During monitoring intervals, it evaluates the filesystem against this baseline, flagging modifications solely on cryptographic hash mismatches (ignoring trivial mtime metadata changes). To prevent attackers from covering their tracks, all alerts are logged using a chained HMAC mechanism, rendering the audit log tamper-evident.
+## Technical Approach & Engineering Decisions
+
+- **Cryptographic Hashing**: The FIM evaluates the filesystem against a known-good SQLite baseline by streaming files in chunks to calculate their SHA-256 hash. SHA-256 was chosen over MD5 due to the latter's known collision vulnerabilities.
+- **Tamper-Evident Logging**: To prevent attackers from covering their tracks, all alerts are logged using a chained HMAC mechanism where each log entry's signature depends on the previous entry's signature. 
+- **Limitations**: Polling-based monitoring implies a detection delay based on the interval schedule. A true real-time solution would require kernel-level hooks (like `inotify` on Linux). Additionally, the HMAC secret is currently passed via a local environment variable (`FIM_HMAC_KEY`); a production system would require a KMS (Key Management Service) to secure the key from a compromised host.
 
 ## Testing
 Rigorous suite of 44 tests validating hash correctness, baseline persistence, detection of all CRUD file operations, and the mathematical integrity of the HMAC chain.
@@ -62,6 +65,3 @@ SHA-256 serves as a content integrity fingerprint. The HMAC implementation relie
 
 ## Limitations
 Polling-based monitoring implies a detection delay based on the interval schedule, distinguishing it from kernel-level real-time inotify solutions.
-
-## Interview Guide
-[View INTERVIEW.md](INTERVIEW.md)

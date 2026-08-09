@@ -1,0 +1,30 @@
+# FIM Configuration
+# ==================
+# Target directories to monitor (list)
+watch_paths:
+  - "./examples/watch_dir"
+
+# Glob patterns to exclude (relative to watch path)
+exclude_patterns:
+  - "*.pyc"
+  - "__pycache__"
+  - "*.swp"
+  - ".DS_Store"
+
+# SQLite database path for baseline storage
+baseline_db: "fim_baseline.db"
+
+# Tamper-evident log file path
+log_file: "fim.log"
+
+# Real-time monitoring polling interval (seconds)
+poll_interval: 5
+
+# HMAC algorithm to use for log signing (sha256 or sha512)
+hmac_algorithm: "sha256"
+
+# Severity levels for alerts: LOW, MEDIUM, HIGH, CRITICAL
+alert_severity:
+  new_file: "MEDIUM"
+  modified_file: "HIGH"
+  deleted_file: "CRITICAL"

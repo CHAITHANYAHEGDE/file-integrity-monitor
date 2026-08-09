@@ -32,6 +32,16 @@ graph TD
     G --> H[Report]
 ```
 
+## Demonstration
+
+![FIM Modification Detection](docs/screenshots/fim-detection.svg)
+
+*FIM scan detecting an unauthorized modification to a monitored file (SHA-256 mismatch).*
+
+![FIM Baseline Creation](docs/screenshots/fim-baseline.svg)
+
+*Initial generation of the cryptographic file baseline.*
+
 ## Technical Approach
 The FIM establishes a known-good SQLite baseline using SHA-256 hashing. During monitoring intervals, it evaluates the filesystem against this baseline, flagging modifications solely on cryptographic hash mismatches (ignoring trivial mtime metadata changes). To prevent attackers from covering their tracks, all alerts are logged using a chained HMAC mechanism, rendering the audit log tamper-evident.
 

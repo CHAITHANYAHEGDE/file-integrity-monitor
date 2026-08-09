@@ -15,3 +15,4 @@ fim.log
 .coverage
 htmlcov/
 .mypy_cache/
+INTERVIEW.md

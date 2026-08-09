@@ -65,3 +65,6 @@ SHA-256 serves as a content integrity fingerprint. The HMAC implementation relie
 
 ## Limitations
 Polling-based monitoring implies a detection delay based on the interval schedule, distinguishing it from kernel-level real-time inotify solutions.
+
+## Interview & Technical Notes
+Technical design notes and interview preparation are maintained separately.
